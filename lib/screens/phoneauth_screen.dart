@@ -72,7 +72,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                   textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.account_circle),
-                      hintText: "Adam Smith",
+                      hintText: "Enter Your Name",
                       hintStyle: TextStyle(color: Colors.grey[600]),
                       errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -124,7 +124,7 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                   textInputAction: TextInputAction.done,
                   decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.phone),
-                      hintText: "+1-1234567890",
+                      hintText: "+91-1234567890",
                       hintStyle: TextStyle(color: Colors.grey[600]),
                       errorBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),

@@ -9,10 +9,18 @@
 			<string>Editor</string>
 			<key>CFDBundleURLSchemes</key>
 			<array>
+				<string>fb846187980121029</string>
+				<string>letsgo</string>
 				<string>com.googleusercontent.apps.620181720158-kmo7jk039cfjc7bv6ifcs57c8c17vbql</string>
 			</array>
 		</dict>
 	</arrray>
+	<key>FacebookAppID</key>
+	<string>846187980121029</string>
+	<key>FacebookClientToken</key>
+	<string>c0ce4ad939a9b7e8917370c5dd71af0b</string>
+	<key>FacebookDisplayName</key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

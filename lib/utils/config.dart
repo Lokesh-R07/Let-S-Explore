@@ -1,6 +1,6 @@
 class Config {
   static final app_icon = "asset/letsgo_logo.png";
-  static final apikey_twitter = "9Feip53jOk8esDtSM6w08d3XT";
+  static final apikey_twitter = "rSwuonduPlGPSPLydGWR3ZhPx";
   static final secretkey_twitter =
-      "1eJOsBMqbI5HGjVAH7KNWkJsGgD44EHMFsZrqb1ne5nfYSwhBW";
+      "aReSVwhcprXvZnxkc6C9KCNC4k14TDBhk9kKUP56P1UYAwV5Kj";
 }

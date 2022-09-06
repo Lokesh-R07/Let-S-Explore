@@ -20,7 +20,7 @@ class SignInProvider extends ChangeNotifier {
   final twitterLogin = TwitterLogin(
       apiKey: Config.apikey_twitter,
       apiSecretKey: Config.secretkey_twitter,
-      redirectURI: "socialauth://");
+      redirectURI: "letsgo://");
 
   bool _isSignedIn = false;
   bool get isSignedIn => _isSignedIn;
