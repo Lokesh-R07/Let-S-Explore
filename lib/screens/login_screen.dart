@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:letsgo/provider/internet_provider.dart';
 import 'package:letsgo/provider/sign_in_provider.dart';
-import 'package:letsgo/screens/phoneauth_screen.dart';
 import 'package:letsgo/screens/home_screen.dart';
+// import 'package:letsgo/screens/user_details.dart';
 import 'package:letsgo/utils/config.dart';
 import 'package:letsgo/utils/next_screen.dart';
 import 'package:letsgo/utils/snack_bar.dart';
@@ -25,8 +25,6 @@ class _LoginScreenState extends State<LoginScreen> {
       RoundedLoadingButtonController();
   final RoundedLoadingButtonController twitterController =
       RoundedLoadingButtonController();
-  final RoundedLoadingButtonController phoneController =
-      RoundedLoadingButtonController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +41,28 @@ class _LoginScreenState extends State<LoginScreen> {
             Flexible(
               flex: 2,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const SizedBox(
+                    height: 30,
+                  ),
                   Image(
                     image: AssetImage(Config.app_icon),
-                    height: 80,
-                    width: 80,
-                    fit: BoxFit.cover,
+                    height: 75,
+                    width: 75,
+                    fit: BoxFit.contain,
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 30,
                   ),
-                  const Text("Let'S Explore",
+                  const Text("            Let'S Explore            ",
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.w500)),
                   const SizedBox(
                     height: 10,
                   ),
                   Text(
-                    "Start Your Ride",
+                    "      Start Your Ride",
                     style: TextStyle(fontSize: 15, color: Colors.grey[600]),
                   )
                 ],
@@ -168,37 +169,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(
                   height: 10,
-                ),
-
-                // phoneAuth loading button
-                RoundedLoadingButton(
-                  onPressed: () {
-                    nextScreenReplace(context, const PhoneAuthScreen());
-                    phoneController.reset();
-                  },
-                  controller: phoneController,
-                  successColor: Colors.black,
-                  width: MediaQuery.of(context).size.width * 0.80,
-                  elevation: 0,
-                  borderRadius: 25,
-                  color: Colors.black,
-                  child: Wrap(
-                    children: const [
-                      Icon(
-                        FontAwesomeIcons.phone,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      Text("Sign in with Phone",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w500)),
-                    ],
-                  ),
                 ),
               ],
             )
@@ -336,3 +306,10 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 }
+
+// handleAfterSignIn2() {
+//     Future.delayed(const Duration(milliseconds: 1000)).then((value) {
+//       nextScreenReplace(context, const UserDetails());
+//     });
+//   }
+// }
