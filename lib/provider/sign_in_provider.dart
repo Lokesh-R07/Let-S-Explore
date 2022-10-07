@@ -1,4 +1,4 @@
-// ignore_for_file: recursive_getters, unused_element
+// ignore_for_file: recursive_getters, unused_element, avoid_print, await_only_futures
 import 'dart:convert';
 
 import 'package:letsgo/utils/config.dart';
@@ -287,13 +287,13 @@ class SignInProvider extends ChangeNotifier {
     s.clear();
   }
 
-  void phoneNumberUser(User user, email, name) {
-    _name = name;
-    _email = email;
-    _imageUrl =
-        "https://winaero.com/blog/wp-content/uploads/2017/12/User-icon-256-blue.png";
-    _uid = user.phoneNumber;
-    _provider = "PHONE";
-    notifyListeners();
-  }
+  // void phoneNumberUser(User user, email, name) {
+  //   _name = name;
+  //   _email = email;
+  //   _imageUrl =
+  //       "https://winaero.com/blog/wp-content/uploads/2017/12/User-icon-256-blue.png";
+  //   _uid = user.phoneNumber;
+  //   _provider = "PHONE";
+  //   notifyListeners();
+  // }
 }

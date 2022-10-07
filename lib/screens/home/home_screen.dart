@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:letsgo/utils/next_screen.dart';
-import 'package:letsgo/screens/login_screen.dart';
+import 'package:letsgo/screens/home/login_screen.dart';
 import 'package:letsgo/provider/sign_in_provider.dart';
 
 class HomeScreen extends StatefulWidget {

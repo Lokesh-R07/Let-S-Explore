@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:letsgo/provider/internet_provider.dart';
 import 'package:letsgo/provider/sign_in_provider.dart';
-import 'package:letsgo/screens/splash_screen.dart';
+import 'package:letsgo/screens/home/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
