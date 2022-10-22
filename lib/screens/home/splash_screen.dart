@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:letsgo/provider/sign_in_provider.dart';
 import 'package:letsgo/screens/home/login_screen.dart';
@@ -16,16 +18,37 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+//   final FirebaseAuth auth = FirebaseAuth.instance;
+
+//   var db = FirebaseFirestore.instance.collection("users");
+
+//   Future<bool> checkIfCollectionExist(String user_details, String uid) async {
+//     final User? user = auth.currentUser;
+//     final uid = user?.uid;
+
+//   var value = await db
+//       .doc(uid)
+//       .collection(user_details)
+//       .limit(1)
+//       .get();
+//   return value.docs.isNotEmpty;
+// }
   // init state
   @override
   void initState() {
     final sp = context.read<SignInProvider>();
+    // var ud=context.read<checkIfCollectionExist()>;
     super.initState();
     // create a timer of 2 seconds
     Timer(const Duration(seconds: 5), () {
       sp.isSignedIn == false
           ? nextScreen(context, const LoginScreen())
           : nextScreen(context, const UserDetails());
+      //       Timer(const Duration(seconds: 5), () {
+      //   ud=false
+      //       ? nextScreen(context, const LoginScreen())
+      //       : nextScreen(context, const UserDetails());
+      // });
     });
   }
 

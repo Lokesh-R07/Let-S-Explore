@@ -15,8 +15,7 @@ class _ServiceProviderHomeState extends State<ServiceProviderHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Container(
           color: Colors.white,
           child: Stack(
@@ -43,35 +42,6 @@ class _ServiceProviderHomeState extends State<ServiceProviderHome> {
                             const SizedBox(
                               height: 30.0,
                               width: 350.0,
-                            ),
-                            ElevatedButton.icon(
-                              icon: const Icon(FontAwesomeIcons.motorcycle),
-                              label: const Text("   Services"),
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(20.0),
-                                fixedSize: const Size(300, 70),
-                                textStyle: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                primary:
-                                    const Color.fromARGB(255, 179, 185, 181),
-                                onPrimary: Colors.black87,
-                                elevation: 15,
-                                shadowColor: Colors.blueAccent,
-                                side: const BorderSide(
-                                  color: Colors.black87,
-                                  width: 2,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              onPressed: () {
-                                nextScreenReplace(context, const RideDetails());
-                              },
-                              //child: Text("Cancel"),
                             ),
                             const SizedBox(
                               height: 30.0,
@@ -134,31 +104,6 @@ class _ServiceProviderHomeState extends State<ServiceProviderHome> {
                             ),
                             const SizedBox(
                               height: 30.0,
-                            ),
-                            ElevatedButton.icon(
-                              icon: const Icon(Icons.search_rounded),
-                              label: const Text("  View Tourist Spots"),
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(20.0),
-                                fixedSize: const Size(300, 70),
-                                textStyle: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w600),
-                                primary:
-                                    const Color.fromARGB(255, 179, 185, 181),
-                                onPrimary: Colors.black87,
-                                elevation: 15,
-                                shadowColor: Colors.blueAccent,
-                                side: const BorderSide(
-                                  color: Colors.black87,
-                                  width: 2,
-                                ),
-                                alignment: Alignment.centerLeft,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                              ),
-                              onPressed: () {},
-                              //child: Text("Cancel"),
                             ),
                             const SizedBox(
                               height: 30.0,

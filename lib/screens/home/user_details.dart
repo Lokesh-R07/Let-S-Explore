@@ -1,8 +1,10 @@
+// ignore_for_file: unused_local_variable
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:firebaseapis/firebaserules/v1.dart';
 import 'dart:io';
-// import 'package:firebaseapis/firestore/v1.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -17,8 +19,6 @@ import 'package:path/path.dart' as Path;
 
 import '../../provider/sign_in_provider.dart';
 
-enum UserRoles { Rider, Service_Provider }
-
 class UserDetails extends StatefulWidget {
   const UserDetails({Key? key}) : super(key: key);
 
@@ -32,17 +32,40 @@ class _UserDetailsState extends State<UserDetails> {
     sp.getDataFromSharedPreferences();
   }
 
-  UserRoles? _userRoles;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  void insertUserDetails() {
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+
+    var db = FirebaseFirestore.instance.collection("users");
+
+    db
+        .doc(auth.currentUser!.uid)
+        .collection("user_details")
+        .add({
+          'name': name,
+          'gender': gender,
+          'profile_url': profile_url,
+          'location': home_location,
+          'dob': dob,
+          'phone_no': phone_no,
+          'aadhar_no': aadhar_no,
+          'user_role': _userRoles,
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
+  }
 
   final formKey = GlobalKey<FormState>();
   List<String> genderOptions = ['Male', 'Female'];
+  List<String> RoleOptions = ['Rider', 'Service Provider'];
   String name = "";
-  String email = "";
-  String gender = "";
-  String profile_url = "";
+  var gender = "";
+  var profile_url = "";
   String home_location = "";
-  String uid = "sp.uid";
-  late String dob;
+  var dob = "";
+  var _userRoles = "";
   var phone_no;
   var aadhar_no;
 
@@ -74,11 +97,15 @@ class _UserDetailsState extends State<UserDetails> {
     final sp = context.watch<SignInProvider>();
 
     var date = DateTime.now();
+
+    String _email = " ${sp.email}";
+    String _uid = " ${sp.uid}";
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Form(
           key: formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           child: Container(
             color: Colors.white,
             child: Stack(
@@ -103,10 +130,10 @@ class _UserDetailsState extends State<UserDetails> {
                           CircleAvatar(
                             backgroundColor: Colors.white,
                             radius: 50,
-                            backgroundImage: NetworkImage("${sp.imageUrl}"),
-                            // child: profile_url == " "
-                            //     ? Image.network("${sp.imageUrl}")
-                            //     : Image.network(profile_url),
+                            child: profile_url == " "
+                                ? Image.network(
+                                    "data:image/jpeg;base64,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")
+                                : Image.network(profile_url),
                           ),
                           Column(
                             children: [
@@ -161,8 +188,7 @@ class _UserDetailsState extends State<UserDetails> {
                         onChanged: (value) => setState(() {
                           name = value;
                         }),
-                        onFieldSubmitted: ((value) =>
-                            setState(() => name = value)),
+                        onSaved: (value) => setState(() => name = value!),
                       ),
                       const SizedBox(
                         height: 20,
@@ -177,10 +203,10 @@ class _UserDetailsState extends State<UserDetails> {
                             labelText: "Email"),
                         enabled: false,
                         onChanged: (value) => setState(() {
-                          email = "${sp.email}";
+                          _email = "${sp.email}";
                         }),
-                        onFieldSubmitted: ((value) =>
-                            setState(() => email = "${sp.email}")),
+                        onSaved: (value) =>
+                            setState(() => _email = "${sp.email}"),
                       ),
                       Text(
                         "No need to enter your email",
@@ -218,8 +244,7 @@ class _UserDetailsState extends State<UserDetails> {
                         onChanged: (value) => setState(() {
                           phone_no = value;
                         }),
-                        onFieldSubmitted: (value) =>
-                            setState(() => phone_no = value),
+                        onSaved: (value) => setState(() => phone_no = value),
                       ),
                       const SizedBox(
                         height: 15,
@@ -250,7 +275,7 @@ class _UserDetailsState extends State<UserDetails> {
                           }
                         },
                         onChanged: (value) => setState(() {
-                          gender = gender;
+                          gender = value!;
                         }),
                         onSaved: (value) => setState(() => gender = gender),
                       ),
@@ -271,7 +296,7 @@ class _UserDetailsState extends State<UserDetails> {
                             DateTime(date.year - 18, date.month, date.day),
                         icon: const Icon(Icons.event),
                         dateLabelText: 'Date of birth',
-                        onChanged: (value) => print(value),
+                        onChanged: (value) => setState(() => dob = value),
                         onSaved: (value) => setState(() {
                           dob = value!;
                         }),
@@ -304,12 +329,12 @@ class _UserDetailsState extends State<UserDetails> {
                         onChanged: (value) => setState(() {
                           aadhar_no = value;
                         }),
-                        onFieldSubmitted: (value) =>
-                            setState(() => aadhar_no = value),
+                        onSaved: (value) => setState(() => aadhar_no = value),
                       ),
                       const SizedBox(
                         height: 25,
                       ),
+
                       //location
                       TextFormField(
                         decoration: const InputDecoration(
@@ -337,9 +362,10 @@ class _UserDetailsState extends State<UserDetails> {
                         onChanged: (value) => setState(() {
                           home_location = value;
                         }),
-                        onFieldSubmitted: ((value) =>
-                            setState(() => home_location = value)),
+                        onSaved: ((value) =>
+                            setState(() => home_location = value!)),
                       ),
+
                       const Text(
                         "Select Your Role",
                         style: TextStyle(
@@ -347,42 +373,75 @@ class _UserDetailsState extends State<UserDetails> {
                           fontWeight: FontWeight.w500,
                         ),
                       ),
+
                       const SizedBox(
                         height: 25,
                       ),
-                      Column(
-                        children: [
-                          RadioListTile<UserRoles>(
-                            contentPadding: const EdgeInsets.all(0.0),
-                            value: UserRoles.Rider,
-                            groupValue: _userRoles,
-                            // shape: RoundedRectangleBorder(
-                            //   borderRadius: BorderRadius.circular(15),
-                            // ),
-                            title: Text(UserRoles.Rider.name),
-                            tileColor: Colors.deepPurple.shade50,
-                            onChanged: (value) {
-                              setState(() {
-                                _userRoles = value;
-                              });
-                            },
-                          ),
-                          RadioListTile<UserRoles>(
-                            contentPadding: const EdgeInsets.all(0.0),
-                            value: UserRoles.Service_Provider,
-                            groupValue: _userRoles,
-                            // dense: true,
-                            title: Text(UserRoles.Service_Provider.name),
-                            tileColor: Colors.deepPurple,
-                            onChanged: (value) {
-                              setState(() {
-                                _userRoles = value;
-                              });
-                            },
-                          ),
-                        ],
+
+                      // Column(
+                      //   children: [
+                      //     RadioListTile<UserRoles>(
+                      //       contentPadding: const EdgeInsets.all(0.0),
+                      //       value: UserRoles.Rider,
+                      //       groupValue: _userRoles,
+                      //       // shape: RoundedRectangleBorder(
+                      //       //   borderRadius: BorderRadius.circular(15),
+                      //       // ),
+                      //       title: Text(UserRoles.Rider.name),
+                      //       tileColor: Colors.deepPurple.shade50,
+                      //       onChanged: (value) {
+                      //         setState(() {
+                      //           _userRoles = value;
+                      //         });
+                      //       },
+                      //     ),
+                      //     RadioListTile<UserRoles>(
+                      //       contentPadding: const EdgeInsets.all(0.0),
+                      //       value: UserRoles.Service_Provider,
+                      //       groupValue: _userRoles,
+                      //       // dense: true,
+                      //       title: Text(UserRoles.Service_Provider.name),
+                      //       tileColor: Colors.deepPurple,
+                      //       onChanged: (value) {
+                      //         setState(() {
+                      //           _userRoles = value;
+                      //         });
+                      //       },
+                      //     ),
+                      //   ],
+                      // ),
+
+                      //UserRoles
+                      FormBuilderDropdown<String>(
+                        name: 'User Role',
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Role',
+                          prefixIcon: Icon(FontAwesomeIcons.person),
+                          hintText: 'Select Role',
+                        ),
+                        items: RoleOptions.map((_userRoles) => DropdownMenuItem(
+                              alignment: AlignmentDirectional.centerStart,
+                              value: _userRoles,
+                              child: Text(_userRoles),
+                            )).toList(),
+                        validator: (value) {
+                          // ignore: unnecessary_null_comparison
+                          if (value == null) {
+                            return 'Please select a Role';
+                          } else {
+                            return null;
+                          }
+                        },
+                        onChanged: (value) => setState(() {
+                          _userRoles = value!;
+                        }),
+                        onSaved: (value) =>
+                            setState(() => _userRoles = _userRoles),
                       ),
+
                       const SizedBox(height: 15),
+
                       Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -405,6 +464,7 @@ class _UserDetailsState extends State<UserDetails> {
                       const SizedBox(
                         height: 25,
                       ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -415,7 +475,9 @@ class _UserDetailsState extends State<UserDetails> {
                               onPressed: () {
                                 final isValid =
                                     formKey.currentState?.validate();
-                                if (isValid != null) {
+                                print(isValid);
+                                if (isValid == true) {
+                                  insertUserDetails();
                                   if (_userRoles == "Rider") {
                                     nextScreenReplace(
                                         context, const RiderHome());
@@ -457,20 +519,3 @@ class _UserDetailsState extends State<UserDetails> {
     );
   }
 }
-
-
-// Widget buildSubmit() => ButtonWidget {
-//   text : 'Submit',
-//   onClick : () => {
-//     final isvalid = formkey.currentState.validate(),
-//   }
-// }
-// ElevatedButton(
-//                 onPressed: () {
-//                   sp.userSignOut();
-//                   nextScreenReplace(context, const LoginScreen());
-//                 },
-//                 child: const Text("SIGNOUT",
-//                     style: TextStyle(
-//                       color: Colors.white,
-//                     )))

@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_time_picker/date_time_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -5,6 +8,9 @@ import 'package:letsgo/screens/rider/rider_home.dart';
 import 'package:letsgo/utils/next_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield_new/datetime_picker_formfield_new.dart';
+import 'package:provider/provider.dart';
+
+import '../../../provider/sign_in_provider.dart';
 
 class CreateRide extends StatefulWidget {
   const CreateRide({Key? key}) : super(key: key);
@@ -14,22 +20,55 @@ class CreateRide extends StatefulWidget {
 }
 
 class _CreateRideState extends State<CreateRide> {
+  Future getData() async {
+    final sp = context.read<SignInProvider>();
+    sp.getDataFromSharedPreferences();
+  }
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  void insertRideDetails() {
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+
+    var db = FirebaseFirestore.instance.collection("users");
+
+    db
+        .doc(auth.currentUser!.uid)
+        .collection("ride_details")
+        .doc()
+        .collection("rides")
+        .add({
+          'start_city': start_city,
+          'destination': destination,
+          'starting_point': starting_point,
+          'start_date': start_date,
+          'start_time': start_time,
+        })
+        .then((value) => print("Ride Added"))
+        .catchError((error) => print("Failed to add ride: $error"));
+  }
+
   final formKey = GlobalKey<FormBuilderState>();
   String start_city = "";
   String destination = "";
   String starting_point = "";
   String profile_url = "";
   String uid = "sp.uid";
-  late DateTime start_date;
-  late DateTime start_time;
-  var phone_no;
-  var aadhar_no;
+  var start_date = "";
+  var start_time = "";
 
   final format = DateFormat("HH:mm");
-  final _format = DateFormat("dd-MM-yyyy");
+  // final _format = DateFormat("dd-MM-yyyy");
 
   @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   Widget build(BuildContext context) {
+    var date = DateTime.now();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
@@ -124,24 +163,42 @@ class _CreateRideState extends State<CreateRide> {
                         height: 15,
                       ),
 
-                      DateTimeField(
-                        format: _format,
-                        decoration: InputDecoration(
-                            labelText: "Select Ride Date",
-                            icon: Icon(Icons.calendar_month)),
-                        initialValue: DateTime.now(),
-                        onShowPicker: (context, currentValue) {
-                          return showDatePicker(
-                              context: context,
-                              firstDate: DateTime.now(),
-                              initialDate: currentValue ?? DateTime.now(),
-                              lastDate:
-                                  DateTime.now().add(new Duration(days: 30)));
-                        },
-                        onSaved: ((currentValue) => setState(() {
-                              start_date = currentValue!;
-                            })),
+                      // DateTimeField(
+                      //   format: _format,
+                      //   decoration: InputDecoration(
+                      //       labelText: "Select Ride Date",
+                      //       icon: Icon(Icons.calendar_month)),
+                      //   initialValue: DateTime.now(),
+                      //   onShowPicker: (context, currentValue) {
+                      //     return showDatePicker(
+                      //         context: context,
+                      //         firstDate: DateTime.now(),
+                      //         initialDate: currentValue ?? DateTime.now(),
+                      //         lastDate:
+                      //             DateTime.now().add(new Duration(days: 30)));
+                      //   },
+                      //   onSaved: ((currentValue) => setState(() {
+                      //         start_date = currentValue! as String;
+                      //       })),
+                      // ),
+
+                      DateTimePicker(
+                        type: DateTimePickerType.date,
+                        dateMask: 'd MMM, yyyy',
+                        initialValue: DateTime(date.year, date.month, date.day)
+                            .toString(),
+                        firstDate: DateTime(date.year, date.month, date.day),
+                        lastDate:
+                            DateTime(date.year, date.month, date.day + 30),
+                        icon: const Icon(Icons.event),
+                        dateLabelText: 'Date of birth',
+                        onChanged: (value) =>
+                            setState(() => start_date = value),
+                        onSaved: (value) => setState(() {
+                          start_date = value!;
+                        }),
                       ),
+
                       const SizedBox(height: 15),
                       DateTimeField(
                         decoration: InputDecoration(
@@ -158,7 +215,7 @@ class _CreateRideState extends State<CreateRide> {
                           return DateTimeField.convert(time);
                         },
                         onSaved: ((currentValue) => setState(() {
-                              start_time = currentValue!;
+                              start_time = currentValue! as String;
                             })),
                       ),
                       const SizedBox(
@@ -173,8 +230,13 @@ class _CreateRideState extends State<CreateRide> {
                                   left: 0.0, right: 0.0, top: 0.0)),
                           ElevatedButton(
                               onPressed: () {
-                                // if (formKey.currentState!.validate()) {}
-                                nextScreenReplace(context, const RiderHome());
+                                final isValid =
+                                    formKey.currentState?.validate();
+                                print(isValid);
+                                if (isValid == null) {
+                                  insertRideDetails();
+                                  nextScreenReplace(context, const RiderHome());
+                                }
                               },
                               child: const Text("Submit",
                                   style: TextStyle(

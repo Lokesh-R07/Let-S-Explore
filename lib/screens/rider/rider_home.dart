@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:letsgo/screens/rider/profile_options.dart';
+import 'package:letsgo/screens/rider/ride/ride_request.dart';
 import 'package:letsgo/screens/rider/ride_details.dart';
 import 'package:letsgo/utils/next_screen.dart';
 
@@ -98,7 +99,9 @@ class _RiderHomeState extends State<RiderHome> {
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                nextScreenReplace(context, const RideRequest());
+                              },
                               //child: Text("Cancel"),
                             ),
                             const SizedBox(

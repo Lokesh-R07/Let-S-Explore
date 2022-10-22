@@ -17,8 +17,7 @@ class _OngoingRideState extends State<OngoingRide> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Container(
           color: Colors.white,
           child: Stack(
@@ -51,18 +50,21 @@ class _OngoingRideState extends State<OngoingRide> {
                                   fontWeight: FontWeight.w700,
                                   fontFamily: "Times New Roman",
                                   fontSize: 20.0,
-                                  color: Colors.greenAccent,
+                                  color: Colors.black87,
                                 )),
                             const SizedBox(
                               height: 20.0,
                             ),
-                            Text("Planning to create a Ride\n\t\tCreate it!",
+                            Text("Planning to create a Ride\n\t\t\tCreate it!",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontFamily: "Times New Roman",
+                                  // fontFamily: "Times New Roman",
                                   fontSize: 15.0,
-                                  color: Colors.greenAccent,
+                                  color: Colors.grey,
                                 )),
+                            const SizedBox(
+                              height: 20.0,
+                            ),
                             ElevatedButton.icon(
                               icon: const Icon(FontAwesomeIcons.motorcycle),
                               label: const Text("   Create New Ride"),
@@ -102,10 +104,13 @@ class _OngoingRideState extends State<OngoingRide> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 onPressed: () {
-                                  nextScreenReplace(context, RiderHome());
+                                  nextScreenReplace(context, RideDetails());
                                 },
                               ),
-                            )
+                            ),
+                            const SizedBox(
+                              height: 30.0,
+                            ),
                           ],
                         )),
                   ],

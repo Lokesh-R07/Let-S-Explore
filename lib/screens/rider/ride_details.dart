@@ -2,7 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:letsgo/screens/rider/ride/create_ride.dart';
+import 'package:letsgo/screens/rider/ride/ongoig_ride.dart';
 import 'package:letsgo/screens/rider/ride/ride_history.dart';
+import 'package:letsgo/screens/rider/ride/search_rides.dart';
+import 'package:letsgo/screens/rider/ride/upcoming_rides.dart';
 import 'package:letsgo/screens/rider/rider_home.dart';
 import 'package:letsgo/utils/next_screen.dart';
 
@@ -96,7 +99,9 @@ class _RideDetailsState extends State<RideDetails> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        nextScreenReplace(context, const UpcomingRide());
+                      },
                       //child: Text("Cancel"),
                     ),
                     const SizedBox(
@@ -123,7 +128,9 @@ class _RideDetailsState extends State<RideDetails> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        nextScreenReplace(context, const OngoingRide());
+                      },
                       //child: Text("Cancel"),
                     ),
                     const SizedBox(
@@ -179,7 +186,9 @@ class _RideDetailsState extends State<RideDetails> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        nextScreenReplace(context, const SearchRides());
+                      },
                       //child: Text("Cancel"),
                     ),
                     const SizedBox(
