@@ -1,8 +1,14 @@
+// ignore_for_file: unused_local_variable
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebaseapis/firestore/v1.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:letsgo/screens/rider/profile_options.dart';
 import 'package:letsgo/screens/rider/ride/ride_request.dart';
 import 'package:letsgo/screens/rider/ride_details.dart';
+import 'package:letsgo/screens/rider/view_tourist_spots.dart';
 import 'package:letsgo/utils/next_screen.dart';
 
 class RiderHome extends StatefulWidget {
@@ -13,6 +19,32 @@ class RiderHome extends StatefulWidget {
 }
 
 class _RiderHomeState extends State<RiderHome> {
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  Future<void> getuserdata() async {
+    final User? user = auth.currentUser;
+    final uid = user?.uid;
+
+    final _instance = FirebaseFirestore.instance;
+
+    CollectionReference userdata = _instance.collection("users");
+
+    DocumentSnapshot snapshot = (await userdata
+        .doc(auth.currentUser!.uid)
+        .collection("user_details")
+        .get()) as DocumentSnapshot<Object?>;
+
+    var data = snapshot.data() as Map;
+    String name = data['name'];
+    String profileurl = data['profileurl'];
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getuserdata();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +73,11 @@ class _RiderHomeState extends State<RiderHome> {
                         ),
                         child: Column(
                           children: [
+                            Row(
+                              children: [
+                                // Text("${name}"),
+                              ],
+                            ),
                             const SizedBox(
                               height: 30.0,
                               width: 350.0,
@@ -160,7 +197,10 @@ class _RiderHomeState extends State<RiderHome> {
                                   borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                nextScreenReplace(
+                                    context, const TouristSpots());
+                              },
                               //child: Text("Cancel"),
                             ),
                             const SizedBox(

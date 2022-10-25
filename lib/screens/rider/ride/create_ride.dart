@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -113,7 +115,9 @@ class _CreateRideState extends State<CreateRide> {
                           hintText: "Enter the starting city",
                         ),
                         keyboardType: TextInputType.text,
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChanged: (value) => setState(() {
                           start_city = value;
                         }),
@@ -132,7 +136,9 @@ class _CreateRideState extends State<CreateRide> {
                           hintText: "Enter your destination",
                         ),
                         keyboardType: TextInputType.text,
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChanged: (value) => setState(() {
                           destination = value;
                         }),
@@ -152,7 +158,9 @@ class _CreateRideState extends State<CreateRide> {
                           hintText: "Enter your starting point",
                         ),
                         keyboardType: TextInputType.text,
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChanged: (value) => setState(() {
                           starting_point = value;
                         }),

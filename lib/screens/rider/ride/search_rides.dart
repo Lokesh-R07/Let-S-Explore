@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -73,7 +75,9 @@ class _SearchRidesState extends State<SearchRides> {
                           hintText: "Enter the starting city",
                         ),
                         keyboardType: TextInputType.text,
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChanged: (value) => setState(() {
                           start_city = value;
                         }),
@@ -92,7 +96,9 @@ class _SearchRidesState extends State<SearchRides> {
                           hintText: "Enter your destination",
                         ),
                         keyboardType: TextInputType.text,
-                        validator: (value) {},
+                        validator: (value) {
+                          return null;
+                        },
                         onChanged: (value) => setState(() {
                           destination = value;
                         }),

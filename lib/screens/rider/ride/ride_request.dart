@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:letsgo/screens/rider/ride_details.dart';
+import 'package:letsgo/screens/rider/rider_home.dart';
 import 'package:letsgo/utils/next_screen.dart';
 
 class RideRequest extends StatefulWidget {
@@ -149,7 +150,7 @@ class _RideRequestState extends State<RideRequest> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () {
-                          nextScreenReplace(context, RideDetails());
+                          nextScreenReplace(context, RiderHome());
                         },
                       ),
                     ),

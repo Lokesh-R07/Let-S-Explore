@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:letsgo/provider/sign_in_provider.dart';
 import 'package:letsgo/screens/home/login_screen.dart';
 import 'package:letsgo/screens/home/user_details.dart';
+import 'package:letsgo/screens/rider/rider_home.dart';
 import 'package:letsgo/utils/next_screen.dart';
 import 'package:provider/provider.dart';
 import 'login_screen.dart';
@@ -43,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 5), () {
       sp.isSignedIn == false
           ? nextScreen(context, const LoginScreen())
-          : nextScreen(context, const UserDetails());
+          : nextScreen(context, const RiderHome());
       //       Timer(const Duration(seconds: 5), () {
       //   ud=false
       //       ? nextScreen(context, const LoginScreen())
